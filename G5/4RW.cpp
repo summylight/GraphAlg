@@ -28,13 +28,20 @@ int main(int argc, char *argv[])
         printf("The pramament of the procedure is like ./SSRW5 amazon/catster/dblp/enron/gnutella/live/pokec run_time_single_turn jump_len(1) repeat_time\n");
         exit(1);
     }
-    vector<vector<long double>> res;
+    vector<vector<vector<long double>>> res; //记录1000单位的数据
+    vector<double> count_time;
     string graph_name = argv[1];
     string file_dt = "/home/guang/graph/graphset/" + graph_name + ".escape";
     char *filename = (char *)file_dt.c_str();
-    int walklen = atol(argv[2]);
+    int given_time = atol(argv[2]);
     int jump_len = atol(argv[3]);
     int repeat_time = atoi(argv[4]);
+
+        for (int i = 0; i < given_time / 1000; i++)
+    {
+        res.push_back(vector<vector<long double>>());
+        count_time.push_back(0);
+    }
     FILE *instream = fopen(filename, "r");
     if (!instream)
     {
@@ -44,7 +51,7 @@ int main(int argc, char *argv[])
     }
     cout << "Now read " << file_dt << endl;
 
-    string s = graph_name + "_" + to_string(walklen) + "_" + to_string(jump_len) + "_" + to_string(repeat_time);
+    string s = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time);
 
     igraph_t G;
     gettimeofday(&start, NULL);
@@ -63,12 +70,10 @@ int main(int argc, char *argv[])
         vector<long double> count(MOTIF5_NUM); //count times all subgraph may appear
 
         gettimeofday(&start, NULL);
-        int walk = 0;
-        int flag = 0;
-        long sample_times = 0;
         igraph_vector_t walknodes;
         igraph_vector_init(&walknodes, 0);
-        igraph_random_walk(&G, &walknodes, startid, IGRAPH_ALL, walklen, IGRAPH_RANDOM_WALK_STUCK_RETURN);
+        dur = 0;
+        igraph_random_walk(&G, &walknodes, startid, IGRAPH_ALL, given_time+3, IGRAPH_RANDOM_WALK_STUCK_RETURN);
 
         igraph_vs_t vs;
         igraph_vs_vector(&vs, &walknodes);
@@ -78,13 +83,13 @@ int main(int argc, char *argv[])
         igraph_vs_destroy(&vs);
         igraph_vector_t nei1, nei2, intersection;
 
-        for (int i = 2; i < walklen - 1; i+=jump_len)
+        for (int pos = 2; pos < given_time +2; pos+=jump_len)
         {
             igraph_vector_init(&nei1, 0);
-            igraph_neighbors(&G, &nei1, VECTOR(walknodes)[i - 2], IGRAPH_ALL);
+            igraph_neighbors(&G, &nei1, VECTOR(walknodes)[pos - 2], IGRAPH_ALL);
 
             igraph_vector_init(&nei2, 0);
-            igraph_neighbors(&G, &nei2, VECTOR(walknodes)[i], IGRAPH_ALL);
+            igraph_neighbors(&G, &nei2, VECTOR(walknodes)[pos], IGRAPH_ALL);
 
             igraph_vector_init(&intersection, 0);
             igraph_vector_intersect_sorted(&nei1, &nei2, &intersection);
@@ -93,7 +98,7 @@ int main(int argc, char *argv[])
             int node5 = VECTOR(intersection)[node5_user];
 
             vector<int> node;
-            for (int k = i - 2; k < i + 2; k++)
+            for (int k = pos - 2; k < pos + 2; k++)
             {
                 node.push_back(VECTOR(walknodes)[k]);
             }
@@ -101,7 +106,7 @@ int main(int argc, char *argv[])
             set<int> it(node.begin(), node.end());
             if (it.size() == 5)
             {
-                long double dg_prod = igraph_vector_size(&intersection) * VECTOR(degrees)[i - 1] * VECTOR(degrees)[i];
+                long double dg_prod = igraph_vector_size(&intersection) * VECTOR(degrees)[pos - 1] * VECTOR(degrees)[pos];
                 igraph_t subgraph;
                 igraph_vector_t vc;
                 igraph_vector_init(&vc, 0);
@@ -122,35 +127,40 @@ int main(int argc, char *argv[])
                 igraph_destroy(&subgraph);
                 igraph_vector_destroy(&vc);
             }
+            if((pos-1)%1000==0){
+
+        gettimeofday(&end, NULL);
+        dur = (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+
+        vector<long double> ans(MOTIF5_NUM);
+        for (int i = 0; i < MOTIF5_NUM; ++i)
+            if(W_constant[i]!=0) ans[i] = ((count[i] / W_constant[i]) / (given_time - 3)) * igraph_ecount(&G) * 2;
+
+                res[(pos-2) / 1000].push_back(ans);
+                count_time[(pos-2) / 1000] += dur;
+            }
         }
 
         igraph_vector_destroy(&walknodes);
         igraph_vector_destroy(&degrees);
 
-        gettimeofday(&end, NULL);
-        dur = dur + (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
-
-        vector<long double> ans(MOTIF5_NUM);
-        for (int i = 0; i < MOTIF5_NUM; ++i)
-            if(W_constant[i]!=0) ans[i] = ((count[i] / W_constant[i]) / (walklen - 3)) * igraph_ecount(&G) * 2;
-
-        ofstream out(s + ".g4rw", std::ios_base::app);
-        out.precision(52);
-        for (int i = 0; i < MOTIF5_NUM; ++i)
-        {
-            out << i << " " << ans[i] << endl;
-        }
-        res.push_back(ans);
-        out << dur << endl;
-        out.close();
     }
+    string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".time4rw";
+    ofstream out(time_file_name);
     printf("Sample Use Time: %f s per sample Use Time:%f s\n",dur, dur / repeat_time);
     cout << "SSRW and NMSRE is writing to " << s << ".g4rw and " << s << ".gnrmse4rw" << endl;
     gettimeofday(&realend, NULL);
     dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
     printf("All Time:%f\n", dur);
-    string nmrse_file_nameg = graph_name + "_" + to_string(walklen) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".gnrmse4rw";
-    count_5gnmrse(graph_name, res, nmrse_file_nameg);
+    string nmrse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".gnrmse4rw";
+    for (int i = 0; i < given_time / 1000; i++)
+    {
+        string str_times = to_string((i + 1) * 1000);
+        count_5gnmrse(graph_name, res[i], nmrse_file_nameg, str_times);
+
+        out << (i + 1) * 1000 << "\t" << count_time[i] / repeat_time << endl;
+    }
+    out.close();
 
     return 0;
 }

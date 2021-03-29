@@ -8,7 +8,7 @@
 using namespace std;
 #define MOTIF4_NUM 6
 #define MOTIF5_NUM 21
-void count_4gnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name)
+void count_4gnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name,string str_times)
 {
     string file_4g_dt = "/home/guang/graph/graphset/" + graph_name + ".4g";
 
@@ -41,14 +41,15 @@ void count_4gnmrse(string graph_name, vector<vector<long double>> &res, string o
         nmrse[j] = sqrt(nmrse[j]);
     }
 
-    cout << "Now writing to " << outfile_name << endl;
+//    cout << "Now writing to " << outfile_name << endl;
     ofstream out(outfile_name, std::ios_base::app);
     out.precision(52);
+    out<<str_times<<endl;
     for (int i = 0; i < MOTIF4_NUM; ++i)
     {
         if (nmrse[i] == 1)
             nmrse[i] = 0;
-        cout << i << " " << nmrse[i] << endl;
+//        cout << i << " " << nmrse[i] << endl;
         out << i << " " << nmrse[i] << endl;
     }
     out.close();
@@ -56,7 +57,7 @@ void count_4gnmrse(string graph_name, vector<vector<long double>> &res, string o
     return;
 }
 
-void count_4cnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name)
+void count_4cnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name,string str_times)
 {
     string file_4g_dt = "/home/guang/graph/graphset/" + graph_name + ".4c";
 
@@ -94,14 +95,15 @@ void count_4cnmrse(string graph_name, vector<vector<long double>> &res, string o
         nmrse[j] = sqrt(nmrse[j]);
     }
 
-    cout << "Now writing to " << outfile_name << endl;
+ //   cout << "Now writing to " << outfile_name << endl;
     ofstream out(outfile_name, std::ios_base::app);
+    out<<str_times<<endl;
     out.precision(52);
     for (int i = 0; i < MOTIF4_NUM; ++i)
     {
         if (nmrse[i] == 1)
             nmrse[i] = 0;
-        cout << i << " " << nmrse[i] << endl;
+//        cout << i << " " << nmrse[i] << endl;
         out << i << " " << nmrse[i] << endl;
     }
     out.close();
@@ -109,7 +111,7 @@ void count_4cnmrse(string graph_name, vector<vector<long double>> &res, string o
     return;
 }
 
-void count_5gnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name)
+void count_5gnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name,string str_times)
 {
     string file_5g_dt = "/home/guang/graph/graphset/" + graph_name + ".5g";
 
@@ -142,14 +144,14 @@ void count_5gnmrse(string graph_name, vector<vector<long double>> &res, string o
         nmrse[j] = sqrt(nmrse[j]);
     }
 
-    cout << "Now writing to " << outfile_name << endl;
-    ofstream out(outfile_name, std::ios_base::app);
+//    cout << "Now writing to " << outfile_name << endl;
+    ofstream out(outfile_name, std::ios_base::app);    out<<str_times<<endl;
     out.precision(52);
     for (int i = 0; i < MOTIF5_NUM; ++i)
     {
         if (nmrse[i] == 1)
             nmrse[i] = 0;
-        cout << i << " " << nmrse[i] << endl;
+//        cout << i << " " << nmrse[i] << endl;
         out << i << " " << nmrse[i] << endl;
     }
     out.close();
@@ -157,7 +159,7 @@ void count_5gnmrse(string graph_name, vector<vector<long double>> &res, string o
     return;
 }
 
-void count_5cnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name)
+void count_5cnmrse(string graph_name, vector<vector<long double>> &res, string outfile_name,string str_times)
 {
     string file_5g_dt = "/home/guang/graph/graphset/" + graph_name + ".5c";
 
@@ -195,14 +197,14 @@ void count_5cnmrse(string graph_name, vector<vector<long double>> &res, string o
         nmrse[j] = sqrt(nmrse[j]);
     }
 
-    cout << "Now writing to " << outfile_name << endl;
-    ofstream out(outfile_name, std::ios_base::app);
+ //   cout << "Now writing to " << outfile_name << endl;
+    ofstream out(outfile_name, std::ios_base::app);    out<<str_times<<endl;
     out.precision(52);
     for (int i = 0; i < MOTIF5_NUM; ++i)
     {
         if (nmrse[i] == 1)
             nmrse[i] = 0;
-        cout << i << " " << nmrse[i] << endl;
+ //       cout << i << " " << nmrse[i] << endl;
         out << i << " " << nmrse[i] << endl;
     }
     out.close();
