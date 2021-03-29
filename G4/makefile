@@ -1,6 +1,6 @@
 .PHONY: NMSRW4  SSRW4  WRW4  clean
 CC := g++
-CFLAGS := -w -g -Os -std=c++20
+CFLAGS := -g
 objects =  NMSRW4 SSRW4 WRW4
 all : $(objects)
 $(objects): %:%.cpp

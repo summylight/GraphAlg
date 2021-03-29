@@ -45,14 +45,14 @@ int main(int argc, char *argv[])
     {
         igraph_rng_seed(igraph_rng_default(), rd());
         int startid = RandStart(&G);
-        long double count[MOTIF5_NUM]; //count times all subgraph may appear
+        long double count[MOTIF4_NUM]; //count times all subgraph may appear
         int run_times = 0;
 
-        for (int i = 0; i < MOTIF5_NUM; ++i)
+        for (int i = 0; i < MOTIF4_NUM; ++i)
             count[i] = 0;
         gettimeofday(&start, NULL);
-        vector<int> node(5), user(5), degree(4);
-        igraph_vector_t* nodeneigh[4];
+        vector<int> node(4), user(4), degree(4);
+        igraph_vector_t* nodeneigh[3];
         igraph_lazy_adjlist_t adj;
         IGRAPH_CHECK(igraph_lazy_adjlist_init(&G, &adj, IGRAPH_ALL,IGRAPH_DONT_SIMPLIFY));
         IGRAPH_FINALLY(igraph_lazy_adjlist_destroy, &adj);
@@ -81,26 +81,18 @@ int main(int argc, char *argv[])
             else
                 node[3] = VECTOR(*nodeneigh[2])[user[3] - degree[1]];
 
-            nodeneigh[3] = igraph_lazy_adjlist_get(&adj, node[3]);
-            degree[3] = igraph_vector_size(nodeneigh[3]);
-            user[4] = get_random(degree[1] + degree[2]  + degree[3]);
-            if (user[4] < degree[1])
-                node[4] = VECTOR(*nodeneigh[1])[user[4]];
-            else if (user[4] < degree[1] + degree[2])
-                node[4] = VECTOR(*nodeneigh[2])[user[4] - degree[1]];
-            else
-                node[4] = VECTOR(*nodeneigh[3])[user[4] - degree[2] - degree[1]];
 
-            int dg_prod = (degree[3] + degree[1] + degree[2]) * degree[1] * (degree[1] + degree[2]);
+
+            int dg_prod =  degree[1] * (degree[1] + degree[2]);
             set<int> it(node.begin(), node.end());
-            if (it.size() == 5)
+            if (it.size() == 4)
             {
                 igraph_t subgraph, subgraph4;
                 igraph_vector_t vc;
                 igraph_vector_init(&vc, 0);
-                for (int i = 0; i < 4; ++i)
+                for (int i = 0; i < 3; ++i)
                 {
-                    for (int j = i + 1; j < 5; ++j)
+                    for (int j = i + 1; j < 4; ++j)
                     {
                         if (igraph_vector_binsearch2(nodeneigh[i], node[j]))
                         {
@@ -122,13 +114,13 @@ int main(int argc, char *argv[])
         gettimeofday(&end, NULL);
         dur = dur + (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
 
-        vector<long double> ans(MOTIF5_NUM);
-        for (int i = 0; i < MOTIF5_NUM; ++i)
+        vector<long double> ans(MOTIF4_NUM);
+        for (int i = 0; i < MOTIF4_NUM; ++i)
             ans[i] = ((count[i] / W_constant[i]) / given_time) * igraph_ecount(&G) * 2;
 
         ofstream out(s + ".gssrw4", std::ios_base::app);
         out.precision(52);
-        for (int i = 0; i < MOTIF5_NUM; ++i)
+        for (int i = 0; i < MOTIF4_NUM; ++i)
         {
             out << i << " " << ans[i] << endl;
         }
