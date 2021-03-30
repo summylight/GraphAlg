@@ -11,12 +11,14 @@ def runalg(algoname,graphname,sample,jump,repeat):
     para = "%s %s %s %s %s "%("./"+algoname,graphname,str(sample),str(jump),str(repeat))
     os.system(para)
 
+sample = 50000
+repeat_times = 1000
+
 os.system("cp *_* ./tmp/")
 os.system("rm -rf *_*")
 for g in graph:
-    sample = 50000
     for al in algo:
-        runalg(al,g,sample,1,1000)
+        runalg(al,g,sample,1,repeat_times)
     for k in {2,5,10}:
-        runalg("NMSRW5",g,sample,k)
-        runalg("NMSRW4",g,sample,k)
+        runalg("NMSRW5",g,sample,k,repeat_times)
+        runalg("NMSRW4",g,sample,k,repeat_times)

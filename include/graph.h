@@ -9,7 +9,7 @@
 #include <sys/time.h>
 #include <set>
 #include <random>
-#include "nmrse.h"
+#include "nrmse.h"
 
 using namespace std;
 #define MOTIF4_NUM 6 //5-subgraph count

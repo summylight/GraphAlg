@@ -1,0 +1,166 @@
+Loading graph
+Converting to CSR
+Relabeling graph
+Creating DAG
+Counting 3-vertex
+Counting 4-vertex
+Getting easy four vertex patterns
+Getting four cycles
+Getting four cliques
+Counting 5-vertex
+Getting all triangles
+Also getting reverse triangle info
+Counting trees
+Counting triangle based patterns
+Counting 4-cycle and 4-clique based patterns
+Counting five cycles
+Counting collision patterns
+Counting almost cliques
+==============
+Basic size
+==============
+Vertices	 33696
+Edges		 180811
+==============
+3 vertex patterns
+==============
+Ind set		 6375953357280 6369885946336 1.00
+Only edge	 6092245834 6043301365 0.99
+Wedge		 25560201 23384268 0.91
+Triangle	 725311 725311 1.00
+==============
+4 vertex patterns
+==============
+Ind set		 53706249116708760 53604462452842952 1.00
+Only edge	 102633019442481 100971009296094 0.98
+Matching	 16320658254 14507645222 0.89
+Only wedge	 861199852293 770880344155 0.90
+Only triangle	 24437903523 24007894981 0.98
+3-star		 4909599179 4479590637 0.91
+3-path		 2313198970 1371827500 0.59
+Tailed triangle	 493690428 375689616 0.76
+4-cycle		 36259068 6758865 0.19
+Diamond		 36522423 22477983 0.62
+4-clique	 2340740 2340740 1.00
+==============
+5 vertex patterns
+==============
+Ind set		 361894189048030232576 360755968710562349056 1.00
+Only edge	 1152637230352023168 1124426658915775360 0.98
+Matching	 549875617893768 481878555190060 0.88
+Only wedge	 14507772711727878 12704902803477780 0.88
+Only triangle	 411680922748458 397291080088488 0.97
+Only 3-star	 165414215538868 146175777810638 0.88
+Only 3-path	 77936299697240 44974689142523 0.58
+Only Tailed tri	 16633417900176 12288239574542 0.74
+Only 4-cycle	 1221640519056 221492496757 0.18
+Only Diamond	 1230513475716 735267487321 0.60
+Only 4-clique	 78864212080 76654374304 0.97
+Wedge+edge	 4602157011199 3254238306200 0.71
+Triangle+edge	 130648340860 101379054960 0.78
+4-star		 1130060095602 1011959160061 0.90
+Prong		 950966964364 484107413441 0.51
+4-path		 266953100987 82462679019 0.31
+Forktailed-tri	 141844150534 99425111762 0.70
+Lontailed-tri	 48035549911 16865558037 0.35
+Doubletailed-tri 115132780547 54424355996 0.47
+Tailed-4-cycle	 42053986558 5427142881 0.13
+5-cycle		 2587833510 195549469 0.08
+Hourglass	 2800553167 1085615228 0.39
+Cobra		 15940166937 5013286327 0.31
+Stingray	 27171487300 13467248232 0.50
+Hatted-4-cycle	 5677055503 512196817 0.09
+3-wedge-col	 1085034916 43814237 0.04
+3-tri-collision	 880467224 406817185 0.46
+Tailed-4-clique	 2755822270 1808522192 0.66
+Triangle-strip	 3119551516 744331092 0.24
+Diamond-wed-col	 1019382538 65112231 0.06
+4-wheel		 243179317 26175952 0.11
+Hatted-4-clique	 719698539 285691809 0.40
+Almost-5-clique	 101379590 43289320 0.43
+5-clique	 5809027 5809027 1.00
+Counting subgraph cost 12.412487 seconds
+
+Loading graph
+Converting to CSR
+Relabeling graph
+Creating DAG
+Counting 3-vertex
+Counting 4-vertex
+Getting easy four vertex patterns
+Getting four cycles
+Getting four cliques
+Counting 5-vertex
+Getting all triangles
+Also getting reverse triangle info
+Counting trees
+Counting triangle based patterns
+Counting 4-cycle and 4-clique based patterns
+Counting five cycles
+Counting collision patterns
+Counting almost cliques
+==============
+Basic size
+==============
+('Vertices\t', 33696.0)
+('Edges\t\t', 180811.0)
+==============
+3 vertex patterns
+==============
+('Ind set\t\t', 6375953357280.0, 6369885946336.0, '1.00')
+('Only edge\t', 6092245834.0, 6043301365.0, '0.99')
+('Wedge\t\t', 25560201.0, 23384268.0, '0.91')
+('Triangle\t', 725311.0, 725311.0, '1.00')
+==============
+4 vertex patterns
+==============
+('Ind set\t\t', 5.370624911670876e+16, 5.360446245284295e+16, '1.00')
+('Only edge\t', 102633019442481.0, 100971009296094.0, '0.98')
+('Matching\t', 16320658254.0, 14507645222.0, '0.89')
+('Only wedge\t', 861199852293.0, 770880344155.0, '0.90')
+('Only triangle\t', 24437903523.0, 24007894981.0, '0.98')
+('3-star\t\t', 4909599179.0, 4479590637.0, '0.91')
+('3-path\t\t', 2313198970.0, 1371827500.0, '0.59')
+('Tailed triangle\t', 493690428.0, 375689616.0, '0.76')
+('4-cycle\t\t', 36259068.0, 6758865.0, '0.19')
+('Diamond\t\t', 36522423.0, 22477983.0, '0.62')
+('4-clique\t', 2340740.0, 2340740.0, '1.00')
+==============
+5 vertex patterns
+==============
+('Ind set\t\t', 3.618941890480302e+20, 3.6075596871056235e+20, '1.00')
+('Only edge\t', 1.1526372303520232e+18, 1.1244266589157754e+18, '0.98')
+('Matching\t', 549875617893768.0, 481878555190060.0, '0.88')
+('Only wedge\t', 1.4507772711727878e+16, 1.270490280347778e+16, '0.88')
+('Only triangle\t', 411680922748458.0, 397291080088488.0, '0.97')
+('Only 3-star\t', 165414215538868.0, 146175777810638.0, '0.88')
+('Only 3-path\t', 77936299697240.0, 44974689142523.0, '0.58')
+('Only Tailed tri\t', 16633417900176.0, 12288239574542.0, '0.74')
+('Only 4-cycle\t', 1221640519056.0, 221492496757.0, '0.18')
+('Only Diamond\t', 1230513475716.0, 735267487321.0, '0.60')
+('Only 4-clique\t', 78864212080.0, 76654374304.0, '0.97')
+('Wedge+edge\t', 4602157011199.0, 3254238306200.0, '0.71')
+('Triangle+edge\t', 130648340860.0, 101379054960.0, '0.78')
+('4-star\t\t', 1130060095602.0, 1011959160061.0, '0.90')
+('Prong\t\t', 950966964364.0, 484107413441.0, '0.51')
+('4-path\t\t', 266953100987.0, 82462679019.0, '0.31')
+('Forktailed-tri\t', 141844150534.0, 99425111762.0, '0.70')
+('Lontailed-tri\t', 48035549911.0, 16865558037.0, '0.35')
+('Doubletailed-tri', 115132780547.0, 54424355996.0, '0.47')
+('Tailed-4-cycle\t', 42053986558.0, 5427142881.0, '0.13')
+('5-cycle\t\t', 2587833510.0, 195549469.0, '0.08')
+('Hourglass\t', 2800553167.0, 1085615228.0, '0.39')
+('Cobra\t\t', 15940166937.0, 5013286327.0, '0.31')
+('Stingray\t', 27171487300.0, 13467248232.0, '0.50')
+('Hatted-4-cycle\t', 5677055503.0, 512196817.0, '0.09')
+('3-wedge-col\t', 1085034916.0, 43814237.0, '0.04')
+('3-tri-collision\t', 880467224.0, 406817185.0, '0.46')
+('Tailed-4-clique\t', 2755822270.0, 1808522192.0, '0.66')
+('Triangle-strip\t', 3119551516.0, 744331092.0, '0.24')
+('Diamond-wed-col\t', 1019382538.0, 65112231.0, '0.06')
+('4-wheel\t\t', 243179317.0, 26175952.0, '0.11')
+('Hatted-4-clique\t', 719698539.0, 285691809.0, '0.40')
+('Almost-5-clique\t', 101379590.0, 43289320.0, '0.43')
+('5-clique\t', 5809027.0, 5809027.0, '1.00')
+Counting subgraph cost 12.450488 seconds
+

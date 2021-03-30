@@ -235,18 +235,18 @@ int main(int argc, char *argv[])
         igraph_vector_destroy(&walknodes);
         igraph_vector_destroy(&degrees);
     }
-     string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".timewrw5";
+     string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "timewrw5.txt";
     ofstream out(time_file_name);
     printf("Sample Use Time: %f s per sample Use Time:%f s\n", dur, dur / repeat_time);
-    cout << "SSRW and NMSRE is writing to " << prestr << ".cwrw5 and " << prestr << ".cnmrsewrw5" << endl;
+    cout << "SSRW and NMSRE is writing to " << prestr << "cwrw5.txt" << endl;
     gettimeofday(&realend, NULL);
     dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
     printf("All Time:%f\n", dur); //count time
-    string nmrse_file_namec = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".cnmrsewrw5";
+    string nrmse_file_namec = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "cwrw5.txt";
     for (int i = 0; i < given_time / 1000; i++)
     {
         string str_times = to_string((i + 1) * 1000);
-        count_5cnmrse(graph_name, res[i], nmrse_file_namec, str_times);
+        count_5cnrmse(graph_name, res[i], nrmse_file_namec, str_times);
 
         out << (i + 1) * 1000 << "\t" << count_time[i] / repeat_time << endl;
     }

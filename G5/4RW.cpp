@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 
         vector<long double> ans(MOTIF5_NUM);
         for (int i = 0; i < MOTIF5_NUM; ++i)
-            if(W_constant[i]!=0) ans[i] = ((count[i] / W_constant[i]) / (given_time - 3)) * igraph_ecount(&G) * 2;
+            if(W_constant[i]!=0) ans[i] = ((count[i] / W_constant[i]) / (pos-1)) * igraph_ecount(&G) * 2;
 
                 res[(pos-2) / 1000].push_back(ans);
                 count_time[(pos-2) / 1000] += dur;
@@ -145,18 +145,18 @@ int main(int argc, char *argv[])
         igraph_vector_destroy(&degrees);
 
     }
-    string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".time4rw";
+    string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "time4rw.txt";
     ofstream out(time_file_name);
     printf("Sample Use Time: %f s per sample Use Time:%f s\n",dur, dur / repeat_time);
-    cout << "SSRW and NMSRE is writing to " << s << ".g4rw and " << s << ".gnrmse4rw" << endl;
+    cout << "SSRW and NMSRE is writing to " <<  s << "g4rw.txt" << endl;
     gettimeofday(&realend, NULL);
     dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
     printf("All Time:%f\n", dur);
-    string nmrse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + ".gnrmse4rw";
+    string nrmse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "g4rw.txt";
     for (int i = 0; i < given_time / 1000; i++)
     {
         string str_times = to_string((i + 1) * 1000);
-        count_5gnmrse(graph_name, res[i], nmrse_file_nameg, str_times);
+        count_5gnrmse(graph_name, res[i], nrmse_file_nameg, str_times);
 
         out << (i + 1) * 1000 << "\t" << count_time[i] / repeat_time << endl;
     }
