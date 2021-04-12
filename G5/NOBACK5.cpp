@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 {
     random_device rd;
 
-    double dur = 0;
+    long double dur = 0;
     struct timeval start, end, realstart, realend;
     if (argc < 5)
     {
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     vector<vector<vector<long double>>> res; //记录1000单位的数据
-    vector<double> count_time;
+    vector<long double> count_time;
 
     string graph_name = argv[1];
     string file_dt = "/home/guang/graph/graphset/" + graph_name + ".escape";
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     gettimeofday(&realstart, NULL);
     igraph_read_graph_ncol(&G, instream, NULL, 0, IGRAPH_ADD_WEIGHTS_NO, IGRAPH_UNDIRECTED);
     gettimeofday(&end, NULL);
-    dur = dur + (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+    dur = dur + (end.tv_sec - start.tv_sec) + (long double)(end.tv_usec - start.tv_usec) / 1000000.0;
     cout << "read time : " << dur << endl;
     dur = 0;
 
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
             user[4] = get_random(degree[3]);
             node[4] = VECTOR(dif_vc)[user[4]];
 
-            double dg_prod = (double)degree[1] * (degree[2]) * (degree[3]);
+            long double dg_prod = (long double)degree[1] * (degree[2]) * (degree[3]);
             set<int> it;
             for(auto i:node) it.insert(i);
             if (it.size() == 5)
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
             if ((run_times + 1) % 1000 == 0)
             {
                 gettimeofday(&end, NULL);
-                dur = (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+                dur = (end.tv_sec - start.tv_sec) + (long double)(end.tv_usec - start.tv_usec) / 1000000.0;
 
                 vector<long double> ans(MOTIF5_NUM);
                 for (int i = 0; i < MOTIF5_NUM; ++i)
@@ -192,14 +192,14 @@ int main(int argc, char *argv[])
     }
 
     //时间统计
-    string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "timenoback5.txt";
+    string time_file_name = graph_name +"_"+to_string(given_time)+ "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "timenoback5.txt";
     ofstream out(time_file_name);
 
-    printf("Sample Use Time: %f s per sample Use Time:%f s\n", dur, (dur / repeat_time));
+    printf("Sample Use Time: %Lf s per sample Use Time:%Lf s\n", dur, (dur / repeat_time));
     cout << "SSRW and NMSRE is writing to "  << s << "gnoback5.txt" << endl;
     gettimeofday(&realend, NULL);
-    dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
-    printf("All Time:%f\n", dur); //count time
+    dur = (realend.tv_sec - realstart.tv_sec) + (long double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
+    printf("All Time:%Lf\n", dur); //count time
     string nrmse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "gnoback5.txt";
     string nrmse_file_namec = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "cnoback5.txt";
     for (int i = 0; i < given_time / 1000; i++)

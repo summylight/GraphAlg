@@ -10,10 +10,10 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [                
-                "amazon",
+                "ca",
                 "10000",
                 "1",
-                "10"],
+                "1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

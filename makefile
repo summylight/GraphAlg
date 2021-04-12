@@ -1,4 +1,4 @@
-SUBDIRS =  G4  G5
+SUBDIRS =  G4  G5 G6
 
 .PHONY: all $(SUBDIRS)
 all: $(SUBDIRS)

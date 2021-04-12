@@ -4,7 +4,7 @@ int main(int argc, char *argv[])
 {
     random_device rd;
 
-    double dur = 0;
+    long double dur = 0;
     struct timeval start, end, realstart, realend;
     if (argc < 5)
     {
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     vector<vector<vector<long double>>> res; //记录1000单位的数据
-    vector<double> count_time;
+    vector<long double> count_time;
     string graph_name = argv[1];
     string file_dt = "/home/guang/graph/graphset/" + graph_name + ".escape";
     char *filename = (char *)file_dt.c_str();
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     gettimeofday(&realstart, NULL);
     igraph_read_graph_ncol(&G, instream, NULL, 0, IGRAPH_ADD_WEIGHTS_NO, IGRAPH_UNDIRECTED);
     gettimeofday(&end, NULL);
-    dur = dur + (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+    dur = dur + (end.tv_sec - start.tv_sec) + (long double)(end.tv_usec - start.tv_usec) / 1000000.0;
     cout << "read time : " << dur << endl;
     dur = 0;
 
@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
         dur=0;
 
         //得到收敛后的路径
+        gettimeofday(&start, NULL);
         igraph_random_walk(&G, &walknodes, startnode, IGRAPH_ALL, given_time+4, IGRAPH_RANDOM_WALK_STUCK_ERROR);
 
         igraph_vector_t degrees;
@@ -69,17 +70,17 @@ int main(int argc, char *argv[])
 
         igraph_vector_t neis;
         igraph_vector_init(&neis, 0);
-
+        vector<int> vc(5);
 
         for (int pos = 4; pos < given_time+4; pos += jump_len)
         {
             // 找path 为5的子图
             s.clear();
             bool ContainDuplicate = 0;
-            vector<int> vc;
+
             for (int k = 0; k < 5; k++)
             {
-                vc.insert(vc.end(), VECTOR(walknodes)[pos - 4 + k]);
+                vc[k]=VECTOR(walknodes)[pos - 4 + k];
                 if (!s.insert(VECTOR(walknodes)[pos - 4 + k]).second)
                 {
                     ContainDuplicate = 1;
@@ -116,10 +117,9 @@ int main(int argc, char *argv[])
             // 找path 为4的子图
             ContainDuplicate = 0;
             s.clear();
-            vc.clear();
             for (int k = 0; k < 4; k++)
             {
-                vc.insert(vc.end(), VECTOR(walknodes)[pos - 3 + k]);
+                vc[k]=VECTOR(walknodes)[pos - 3 + k];
                 if (!s.insert(VECTOR(walknodes)[pos - 3 + k]).second)
                 {
                     ContainDuplicate = 1;
@@ -129,8 +129,8 @@ int main(int argc, char *argv[])
             igraph_neighbors(&G, &neis, VECTOR(walknodes)[pos - 2], IGRAPH_ALL);
             int neissize = igraph_vector_size(&neis);
             int user = RNG_INTEGER(0, neissize - 1);
-            vc.insert(vc.end(), VECTOR(neis)[user]);
-            if (!s.insert(vc[5]).second)
+            vc[4]=VECTOR(neis)[user];
+            if (!s.insert(vc[4]).second)
             {
                 ContainDuplicate = 1;
             }
@@ -164,10 +164,9 @@ int main(int argc, char *argv[])
             // 找path 为3的子图
             s.clear();
             ContainDuplicate = 0;
-            vc.clear();
             for (int k = 0; k < 3; k++)
             {
-                vc.insert(vc.end(), VECTOR(walknodes)[pos - 2 + k]);
+                vc[k]=VECTOR(walknodes)[pos - 2 + k];
                 if (!s.insert(VECTOR(walknodes)[pos - 2 + k]).second)
                 {
                     ContainDuplicate = 1;
@@ -178,13 +177,13 @@ int main(int argc, char *argv[])
             neissize = igraph_vector_size(&neis);
             int user1 = RNG_INTEGER(0, neissize - 1);
             int user2 = RNG_INTEGER(0, neissize - 1);
-            vc.insert(vc.end(), VECTOR(neis)[user1]);
-            vc.insert(vc.end(), VECTOR(neis)[user2]);
+            vc[3]=VECTOR(neis)[user1];
+            vc[4]=VECTOR(neis)[user2];
             if (!s.insert(vc[4]).second)
             {
                 ContainDuplicate = 1;
             }
-            if (!s.insert(vc[5]).second)
+            if (!s.insert(vc[3]).second)
             {
                 ContainDuplicate = 1;
             }
@@ -217,17 +216,12 @@ int main(int argc, char *argv[])
             {
 
                 gettimeofday(&end, NULL);
-                dur = (end.tv_sec - start.tv_sec) + (double)(end.tv_usec - start.tv_usec) / 1000000.0;
+                dur = (end.tv_sec - start.tv_sec) + (long double)(end.tv_usec - start.tv_usec) / 1000000.0;
 
                 vector<long double> ans(MOTIF5_NUM);
-                long double sum = 0;
                 for (int i = 0; i < MOTIF5_NUM; ++i)
-                    sum += (ans[i] = (cc[i] / W_constant[i]));
+                    ans[i]=((cc[i]*2*igraph_ecount(&G))/W_constant[i])/(pos-3);
 
-                for (int i = 0; i < MOTIF5_NUM; ++i)
-                {
-                    ans[i] /= sum;
-                }
                 res[(pos-4) / 1000].push_back(ans);
                 count_time[(pos-4) / 1000] += dur;
             }
@@ -235,18 +229,20 @@ int main(int argc, char *argv[])
         igraph_vector_destroy(&walknodes);
         igraph_vector_destroy(&degrees);
     }
-     string time_file_name = graph_name + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "timewrw5.txt";
+     string time_file_name = graph_name +"_"+to_string(given_time)+ "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "timewrw5.txt";
     ofstream out(time_file_name);
-    printf("Sample Use Time: %f s per sample Use Time:%f s\n", dur, dur / repeat_time);
+    printf("Sample Use Time: %Lf s per sample Use Time:%Lf s\n", dur, dur / repeat_time);
     cout << "SSRW and NMSRE is writing to " << prestr << "cwrw5.txt" << endl;
     gettimeofday(&realend, NULL);
-    dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
-    printf("All Time:%f\n", dur); //count time
+    dur = (realend.tv_sec - realstart.tv_sec) + (long double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
+    printf("All Time:%Lf\n", dur); //count time
+    string nrmse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "gwrw5.txt";
     string nrmse_file_namec = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "cwrw5.txt";
     for (int i = 0; i < given_time / 1000; i++)
     {
         string str_times = to_string((i + 1) * 1000);
         count_5cnrmse(graph_name, res[i], nrmse_file_namec, str_times);
+        count_5gnrmse(graph_name, res[i], nrmse_file_nameg, str_times);
 
         out << (i + 1) * 1000 << "\t" << count_time[i] / repeat_time << endl;
     }

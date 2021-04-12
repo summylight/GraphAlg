@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
         igraph_vector_init(&walknodes, 0);
         dur = 0;
         //得到收敛后的路径
+        gettimeofday(&start, NULL);
         igraph_random_walk(&G, &walknodes, startnode, IGRAPH_ALL, given_time+3, IGRAPH_RANDOM_WALK_STUCK_ERROR);
-
         igraph_vector_t degrees;
         igraph_vector_init(&degrees, given_time+3);
         igraph_vs_t vs;
@@ -185,11 +185,12 @@ int main(int argc, char *argv[])
     dur = (realend.tv_sec - realstart.tv_sec) + (double)(realend.tv_usec - realstart.tv_usec) / 1000000.0;
     printf("All Time:%f\n", dur); //count time
     string nrmse_file_namec = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "cwrw4.txt";
+    string nrmse_file_nameg = graph_name + "_" + to_string(given_time) + "_" + to_string(jump_len) + "_" + to_string(repeat_time) + "gwrw4.txt";
     for (int i = 0; i < given_time / 1000; i++)
     {
         string str_times = to_string((i + 1) * 1000);
         count_4cnrmse(graph_name, res[i], nrmse_file_namec, str_times);
-
+        count_4gnrmse(graph_name, res[i], nrmse_file_nameg, str_times);
         out << (i + 1) * 1000 << "\t" << count_time[i] / repeat_time << endl;
     }
     out.close();
